@@ -1,0 +1,66 @@
+;
+; CTF.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Sample ; TODO: edit Class
+ClassGuid={78A1C341-4539-11d3-B88D-00C04FAD5171} ; TODO: edit ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=CTF.cat
+DriverVer= ; TODO: set DriverVer in stampinf property pages
+
+[DestinationDirs]
+DefaultDestDir = 12
+CTF_Device_CoInstaller_CopyFiles = 11
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SampleClassReg
+
+[SampleClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+CTF.sys  = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%CTF.DeviceDesc%=CTF_Device, Root\CTF ; TODO: edit hw-id
+
+[CTF_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+CTF.sys
+
+;-------------- Service installation
+[CTF_Device.NT.Services]
+AddService = CTF,%SPSVCINST_ASSOCSERVICE%, CTF_Service_Inst
+
+; -------------- CTF driver install sections
+[CTF_Service_Inst]
+DisplayName    = %CTF.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\CTF.sys
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+ClassName="Samples" ; TODO: edit ClassName
+DiskName = "CTF Installation Disk"
+CTF.DeviceDesc = "CTF Device"
+CTF.SVCDESC = "CTF Service"
